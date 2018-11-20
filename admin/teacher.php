@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove icon-large"></i>&nbsp;Close</button>
-                                            <a href="delete_course.php<?php echo '?id=' . $teacher_id; ?>" class="btn btn-danger"><i class="icon-trash icon-large"></i>&nbsp;Delete</a>
+                                            <a href="delete_teacher.php<?php echo '?id=' . $teacher_id; ?>" class="btn btn-danger"><i class="icon-trash icon-large"></i>&nbsp;Delete</a>
                                         </div>
                                     </div>
                                     <!-- end delete modal -->
