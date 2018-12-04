@@ -135,9 +135,9 @@
         <div class="row">
             <div class="col-12 offset-lg-1 col-lg-10">
                 <div class="featured-image">
-                    <img src="images/single-course-featured-img.jpg" alt="">
+                    <img src="images/vinahouse.jpg" alt="">
 
-                    <div class="course-cost">5$</div>
+                    <div class="course-cost">Free</div>
                 </div>
             </div><!-- .col -->
         </div><!-- .row -->
@@ -161,22 +161,35 @@
                 <div class="single-course-wrap">
                     <div class="course-info flex flex-wrap align-items-center">
                         <div class="course-author flex flex-wrap align-items-center mt-3">
-                            <img src="images/1.jpg" alt="">
+                            <img src="images/tien.jpg" alt="">
 
                             <div class="author-wrap">
                                 <label class="m-0">Teacher</label>
-                                <div class="author-name"><a href="#">Bach Sensei</a></div>
+                                <div class="author-name"><a href="#">Tien Kha Banh</a></div>
                             </div><!-- .author-wrap -->
                         </div><!-- .course-author -->
 
                         <div class="course-cats mt-3">
                             <label class="m-0">Categories</label>
-                            <div class="author-name"><a href="#">Japanese</a></div>
+                            <div class="author-name"><a href="#">Dancing</a></div>
                         </div><!-- .course-cats -->
 
                         <div class="course-students mt-3">
                             <label class="m-0">Student</label>
-                            <div class="author-name"><a href="#">26 (REGISTERED)</a></div>
+							<?php
+								require('login/db.php');
+								$query="SELECT COUNT(cid) FROM assignstudent WHERE cid IN ( SELECT cid FROM courses WHERE CName='Vinahouse')";
+								$result = mysqli_query($con,$query) or die(mysqli_error($con));
+								if (mysqli_num_rows($result) > 0) {
+									while($regis_num = mysqli_fetch_assoc($result)) {	
+							?>
+								 <div class="author-name"><a href="#"><?php echo $regis_num["COUNT(cid)"]; ?> (REGISTERED)</a></div>
+							<?php			}
+								} else {
+									echo "0 results";
+									}
+							?>
+                            
                         </div><!-- .course-students -->
 
                         <div class="buy-course mt-3">
