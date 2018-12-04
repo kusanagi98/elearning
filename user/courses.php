@@ -124,18 +124,18 @@
             <div class="col-12 col-lg-8">
                 <div class="featured-courses courses-wrap">
                     <div class="row mx-m-25">
-                        <div class="col-12 col-md-6 px-25">
+                        
+						<div class="col-12 col-md-6 px-25">
                             <div class="course-content">
                                 <figure class="course-thumbnail">
-                                    <a href="#"><img src="images/1.jpg" alt=""></a>
+                                    <a href="single-courses.php"><img src="images/1.jpg" alt=""></a>
                                 </figure><!-- .course-thumbnail -->
 
                                 <div class="course-content-wrap">
                                     <header class="entry-header">
-                                        <h2 class="entry-title"><a href="#">The Complete Android Developer Course</a></h2>
-
+                                        <h2 class="entry-title"><a href="single-courses.php?id=145">JLPT N1 in 1 month</a></h2>
                                         <div class="entry-meta flex flex-wrap align-items-center">
-                                            <div class="course-author"><a href="#">Ms. Lara Croft </a></div>
+                                            <div class="course-author"><a href="#">Bach Sensei </a></div>
 
                                             <div class="course-date">July 21, 2018</div>
                                         </div><!-- .course-date -->
@@ -204,7 +204,7 @@
 
                                 <div class="course-content-wrap">
                                     <header class="entry-header">
-                                        <h2 class="entry-title"><a href="#">Basic Vinahouse Dancing</a></h2>
+                                        <h2 class="entry-title"><a href="Vinahouse.php">Basic Vinahouse Dancing</a></h2>
 
                                         <div class="entry-meta flex flex-wrap align-items-center">
                                             <div class="course-author"><a href="#">Tien Kha Banh</a></div>

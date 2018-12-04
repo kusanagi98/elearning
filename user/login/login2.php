@@ -18,7 +18,7 @@
 		$password = $_REQUEST['password'];
 
 		//Checking is user existing in the database or not
-	        $query = "SELECT * FROM user WHERE name='$username' ";
+	        $query = "SELECT * FROM student WHERE email='$username' ";
 		$result = mysqli_query($con,$query) or die(mysqli_error($con));
 
 		$numofrows = mysqli_num_rows($result);
@@ -27,11 +27,8 @@
 	
 	        if($password == $row['password']){
 		    	$_SESSION['username'] = $username;
-				$highscore = $row['highscore'];
-				echo $highscore;
-				$_SESSION['highscore'] = $highscore;
-	            // Redirect user to game play
-		    	header("Location: https://matchingcolor.000webhostapp.com/");
+	            // Redirect user to interface
+		    	header("Location: ../index_login.php");
 	        }else{
 					echo "<div class='form'>
 				<h3>Username/password is incorrect.</h3>
@@ -49,11 +46,11 @@
       	$REpassword_s = stripslashes($_REQUEST['REpassword_s']);
       	$REpassword_s = mysqli_real_escape_string($con,$REpassword_s);
 
-		$chk = "SELECT * FROM user WHERE name = '$username_s'";
+		$chk = "SELECT * FROM student WHERE email = '$username_s'";
 			if ($con->query($chk)->num_rows == 0){
 		//		$stmt->execute(); //add
 				if( ($REpassword_s == $password_s) ){
-					$query = "INSERT INTO user (name, password) VALUES ('$username_s', '$password_s')";
+					$query = "INSERT INTO student (email, password) VALUES ('$username_s', '$password_s')";
 					$result = mysqli_query($con,$query);
 					if($result){
 						echo "<div class='form'>

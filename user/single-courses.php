@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-9 col-lg-3">
                             <div class="site-branding">
-                                <h1 class="site-title"><a href="index.html" rel="home">Dabaki<span>Academy</span></a></h1>
+                                <h1 class="site-title"><a href="index.php" rel="home">Dabaki<span>Academy</span></a></h1>
                             </div><!-- .site-branding -->
                         </div><!-- .col -->
 
@@ -78,8 +78,8 @@
                                     <li><a href="blog.php">Ask&Ans</a></li>
                                     <li><a href="contact.php">Contact</a></li>
                                 </ul>
-
-                                <div class="hamburger-menu d-lg-none">
+								
+								<div class="hamburger-menu d-lg-none">
                                     <span></span>
                                     <span></span>
                                     <span></span>
@@ -89,26 +89,49 @@
                                 <div class="header-bar-cart">
                                     <a href="#" class="flex justify-content-center align-items-center"><span aria-hidden="true" class="icon_bag_alt"></span></a>
                                 </div><!-- .header-bar-search -->
+                              
                             </nav><!-- .site-navigation -->
                         </div><!-- .col -->
                     </div><!-- .row -->
                 </div><!-- .container -->
             </div><!-- .nav-bar -->
         </header><!-- .site-header -->
-
         <div class="page-header-overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <header class="entry-header">
-                            <h1 class="entry-title">JLPT N1 in 1 month</h1>
+                            <h1 class="entry-title"><?php
+										require('login/db.php');
+										if(isset($_GET['id'])){
+											$id=$_GET['id'];
+											$query="SELECT * FROM courses WHERE CID=$id" ;
+											$result = mysqli_query($con,$query) or die(mysqli_error($con));
+											if (mysqli_num_rows($result) > 0) {
+												while($course = mysqli_fetch_assoc($result)) {	
+													echo $course["CName"];
+													}
+											}
+										}	?></h1>
 
                             <div class="ratings flex justify-content-center align-items-center">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
+                                <?php	
+											$result = mysqli_query($con,$query) or die(mysqli_error($con));
+											if (mysqli_num_rows($result) > 0) {
+												while($course = mysqli_fetch_assoc($result)) {	
+													$star=$course["rating"];
+													for($i=0;$i<$star;$i++){	
+														echo '<i class="fa fa-star"></i>';
+													}
+													for($i=0;$i<(5-$star);$i++){ 
+														echo '<span class="fa fa-star-o"></span>';
+													}
+													}
+											} else {
+												echo "0 results";
+												}
+											
+								?>
                                 <span>(4 votes)</span>
                             </div><!-- .ratings -->
                         </header><!-- .entry-header -->
@@ -124,7 +147,16 @@
                 <div class="featured-image">
                     <img src="images/single-course-featured-img.jpg" alt="">
 
-                    <div class="course-cost">5$</div>
+                    <div class="course-cost"><?php	
+											$result = mysqli_query($con,$query) or die(mysqli_error($con));
+											if (mysqli_num_rows($result) > 0) {
+												while($course = mysqli_fetch_assoc($result)) {	
+													$price=$course["price"];
+													$discount=$course["discount"];
+													echo $price*(100-$discount)*0.01 ."$";
+											}
+											}
+					?></div>
                 </div>
             </div><!-- .col -->
         </div><!-- .row -->
@@ -152,18 +184,41 @@
 
                             <div class="author-wrap">
                                 <label class="m-0">Teacher</label>
-                                <div class="author-name"><a href="#">Bach Sensei</a></div>
+                                <div class="author-name"><a href="#"><?php
+											$query_teacher="SELECT * FROM `teacher` WHERE TID IN( SELECT TID FROM courses WHERE CID=$id )";
+											$result = mysqli_query($con,$query_teacher) or die(mysqli_error($con));
+											if (mysqli_num_rows($result) > 0) {
+												while($teacher = mysqli_fetch_assoc($result)) {	
+													echo $teacher["name"];
+											}
+											}
+											?></a></div>
                             </div><!-- .author-wrap -->
                         </div><!-- .course-author -->
 
                         <div class="course-cats mt-3">
                             <label class="m-0">Categories</label>
-                            <div class="author-name"><a href="#">Japanese</a></div>
+                            <div class="author-name"><a href="#"></a><?php	
+											$result = mysqli_query($con,$query) or die(mysqli_error($con));
+											if (mysqli_num_rows($result) > 0) {
+												while($course = mysqli_fetch_assoc($result)) {	
+													echo $course["category"];
+											}
+											}
+					?></div>
                         </div><!-- .course-cats -->
 
                         <div class="course-students mt-3">
                             <label class="m-0">Student</label>
-                            <div class="author-name"><a href="#">26 (REGISTERED)</a></div>
+                            <div class="author-name"><a href="#"><?php
+								$query_regis="SELECT COUNT(cid) FROM assignstudent WHERE cid IN ( SELECT cid FROM courses WHERE CID=$id)";
+								$result = mysqli_query($con,$query_regis) or die(mysqli_error($con));
+								if (mysqli_num_rows($result) > 0) {
+									while($regis_num = mysqli_fetch_assoc($result)) {
+										echo $regis_num["COUNT(cid)"];
+									}
+								}									
+							?> (REGISTERED)</a></div>
                         </div><!-- .course-students -->
 
                         <div class="buy-course mt-3">
@@ -172,7 +227,7 @@
                     </div><!-- .course-info -->
 
                     <div class="single-course-cont-section">
-                        <h2>What Will I Learn?</h2>
+                        <h2>What Will I Learn? </h2>
 
                         <ul class="p-0 m-0 green-ticked">
                             <li>Learn C++, the games industry standard language.</li>
