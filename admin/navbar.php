@@ -1,3 +1,6 @@
+<?php
+ob_start();
+?>
 
 <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
@@ -37,9 +40,6 @@
                             <li><a href="department.php">Department</a></li>
                         </ul>
                     </li>
-
-
-                    <li><a href="user.php"><i class="icon-user icon-large"></i>&nbsp;User</a></li>
                     <li><a  href="#myModal" role="button"  data-toggle="modal"><i class="icon-signout icon-large"></i>&nbsp;Logout</a></li>
                 </ul>
             </div>
@@ -56,7 +56,7 @@
 
                 <div class="row-fluid">
                     <div class="span6">
-                        <img src="src/images/head.png">
+                        <img src="src/images/admin_logo.jpg">
                     </div>
                     <div class="span6">
 

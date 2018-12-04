@@ -48,7 +48,7 @@ unset($_SESSION['id']);
 
                             <div class="row-fluid">
                                 <div class="span6">
-                                    <img src="src/images/head.png">
+                                    <img src="src/images/admin_logo.jpg">
                                 </div>
                                 <div class="span6">
 

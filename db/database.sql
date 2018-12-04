@@ -44,4 +44,16 @@ CREATE TABLE "AssignTeacher"
 	ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE "Student"
+(
+	student_id serial PRIMARY KEY,
+	name VARCHAR,
+	email VARCHAR,
+	password VARCHAR,
+	address VARCHAR,
+	date_of_birth DATE,
+	create_at TIMESTAMP
+);
+
+
 
