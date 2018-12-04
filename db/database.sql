@@ -55,5 +55,90 @@ CREATE TABLE "Student"
 	create_at TIMESTAMP
 );
 
+CREATE TABLE "Enrolled"
+(
+	student_id INT REFERENCES "Student"(student_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	enrolled_date TIMESTAMP
+);
 
+CREATE TABLE "Category"
+(
+	category_id serial PRIMARY KEY,
+	category VARCHAR
+);
+
+CREATE TABLE "CourseImage"
+(
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	image VARCHAR	
+);
+
+CREATE TABLE "CourseRequirement"
+(
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	description VARCHAR
+);
+
+CREATE TABLE "CourseArchivement"
+(
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	description VARCHAR
+);
+
+CREATE TABLE "CourseDescription"
+(
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	description VARCHAR
+);
+
+CREATE TABLE "CourseCategory"
+(
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	category_id INT REFERENCES "Category"(category_id)
+	ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE "ClickRecord"
+(
+	student_id INT REFERENCES "Student"(student_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	category_id INT REFERENCES "Category"(category_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	PRIMARY KEY (student_id, category_id)
+);
+
+CREATE TABLE "Vote"
+(
+	student_id INT REFERENCES "Student"(student_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	rate INT CHECK (rate > 0 AND rate < 5),
+	PRIMARY KEY (student_id, course_id)
+);
+
+CREATE TABLE "Exam"
+(
+	exam_id serial PRIMARY KEY,
+	course_id INT REFERENCES "Course"(course_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	duration INT
+);
+
+CREATE TABLE "ExamResult"
+(
+	student_id INT REFERENCES "Student"(student_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	exam_id INT REFERENCES "Exam"(exam_id)
+	ON UPDATE CASCADE ON DELETE CASCADE,
+	mark FLOAT CHECK (mark > 0 AND mark < 10)
+);
 
