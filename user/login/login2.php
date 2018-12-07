@@ -14,16 +14,13 @@
 	        // removes backslashes
 		$username = stripslashes($_REQUEST['username']);
 	        //escapes special characters in a string
-		$username = mysqli_real_escape_string($con,$username);
+		$username = pg_escape_literal($con,$username);
 		$password = $_REQUEST['password'];
-
 		//Checking is user existing in the database or not
-	        $query = "SELECT * FROM student WHERE email='$username' ";
-		$result = mysqli_query($con,$query) or die(mysqli_error($con));
-
-		$numofrows = mysqli_num_rows($result);
-
-		$row = mysqli_fetch_assoc($result);
+	$query = "SELECT * FROM student WHERE email={$username} ";
+		$result = pg_query($con,$query) or die(pg_errormessage($con));
+		$numofrows = pg_num_rows($result);
+		$row = pg_fetch_assoc($result);
 	
 	        if($password == $row['password']){
 		    	$_SESSION['username'] = $username;
@@ -33,32 +30,29 @@
 					echo "<div class='form'>
 				<h3>Username/password is incorrect.</h3>
 				<br/><p>Click here to <a href='login2.php'>Login</a></p></div>";
-
 			}
 			///////////////////////////////////////////////////////////
 	    }elseif (isset($_REQUEST['username_s'])){
               // removes backslashes
       	$username_s = stripslashes($_REQUEST['username_s']);
 		//escapes special characters in a string
-      	$username_s = mysqli_real_escape_string($con,$username_s); 
+      	$username_s = pg_escape_literal($con,$username_s); 
         $password_s = stripslashes($_REQUEST['password_s']);
-        $password_s = mysqli_real_escape_string($con,$password_s);
+        $password_s = pg_escape_literal($con,$password_s);
       	$REpassword_s = stripslashes($_REQUEST['REpassword_s']);
-      	$REpassword_s = mysqli_real_escape_string($con,$REpassword_s);
-
+      	$REpassword_s = pg_escape_literal($con,$REpassword_s);
 		$chk = "SELECT * FROM student WHERE email = '$username_s'";
 			if ($con->query($chk)->num_rows == 0){
 		//		$stmt->execute(); //add
 				if( ($REpassword_s == $password_s) ){
 					$query = "INSERT INTO student (email, password) VALUES ('$username_s', '$password_s')";
-					$result = mysqli_query($con,$query);
+					$result = pg_query($con,$query);
 					if($result){
 						echo "<div class='form'>
 					  <h3>You are registered successfully.</h3>
 					  <p>Auto reloading <a href='login2.php'>page</a></p>";
 					  header("refresh:3;url=login2.php");
 					}
-
 				 }else {
 					echo "<div class='form'>
 						  <h3>Password do not match</h3>
