@@ -105,20 +105,20 @@
 										require('login/db.php');
 										if(isset($_GET['id'])){
 											$id=$_GET['id'];
-											$query="SELECT * FROM courses WHERE CID=$id" ;
-											$result = mysqli_query($con,$query) or die(mysqli_error($con));
-											if (mysqli_num_rows($result) > 0) {
-												while($course = mysqli_fetch_assoc($result)) {	
-													echo $course["CName"];
+											$query="SELECT * FROM courses WHERE cid=$id" ;
+											$result = pg_query($con,$query) or die(pg_errormessage($con));
+											if (pg_num_rows($result) > 0) {
+												while($course = pg_fetch_assoc($result)) {	
+													echo $course["cname"];
 													}
 											}
 										}	?></h1>
 
                             <div class="ratings flex justify-content-center align-items-center">
                                 <?php	
-											$result = mysqli_query($con,$query) or die(mysqli_error($con));
-											if (mysqli_num_rows($result) > 0) {
-												while($course = mysqli_fetch_assoc($result)) {	
+											$result = pg_query($con,$query) or die(pg_errormessage($con));
+											if (pg_num_rows($result) > 0) {
+												while($course = pg_fetch_assoc($result)) {	
 													$star=$course["rating"];
 													for($i=0;$i<$star;$i++){	
 														echo '<i class="fa fa-star"></i>';
@@ -148,9 +148,9 @@
                     <img src="images/single-course-featured-img.jpg" alt="">
 
                     <div class="course-cost"><?php	
-											$result = mysqli_query($con,$query) or die(mysqli_error($con));
-											if (mysqli_num_rows($result) > 0) {
-												while($course = mysqli_fetch_assoc($result)) {	
+											$result = pg_query($con,$query) or die(pg_errormessage($con));
+											if (pg_num_rows($result) > 0) {
+												while($course = pg_fetch_assoc($result)) {	
 													$price=$course["price"];
 													$discount=$course["discount"];
 													echo $price*(100-$discount)*0.01 ."$";
@@ -185,10 +185,10 @@
                             <div class="author-wrap">
                                 <label class="m-0">Teacher</label>
                                 <div class="author-name"><a href="#"><?php
-											$query_teacher="SELECT * FROM `teacher` WHERE TID IN( SELECT TID FROM courses WHERE CID=$id )";
-											$result = mysqli_query($con,$query_teacher) or die(mysqli_error($con));
-											if (mysqli_num_rows($result) > 0) {
-												while($teacher = mysqli_fetch_assoc($result)) {	
+											$query_teacher="SELECT * FROM teacher WHERE tid IN( SELECT tid FROM courses WHERE cid=$id )";
+											$result = pg_query($con,$query_teacher) or die(pg_errormessage($con));
+											if (pg_num_rows($result) > 0) {
+												while($teacher = pg_fetch_assoc($result)) {	
 													echo $teacher["name"];
 											}
 											}
@@ -199,9 +199,9 @@
                         <div class="course-cats mt-3">
                             <label class="m-0">Categories</label>
                             <div class="author-name"><a href="#"></a><?php	
-											$result = mysqli_query($con,$query) or die(mysqli_error($con));
-											if (mysqli_num_rows($result) > 0) {
-												while($course = mysqli_fetch_assoc($result)) {	
+											$result = pg_query($con,$query) or die(pg_errormessage($con));
+											if (pg_num_rows($result) > 0) {
+												while($course = pg_fetch_assoc($result)) {	
 													echo $course["category"];
 											}
 											}
@@ -211,11 +211,11 @@
                         <div class="course-students mt-3">
                             <label class="m-0">Student</label>
                             <div class="author-name"><a href="#"><?php
-								$query_regis="SELECT COUNT(cid) FROM assignstudent WHERE cid IN ( SELECT cid FROM courses WHERE CID=$id)";
-								$result = mysqli_query($con,$query_regis) or die(mysqli_error($con));
-								if (mysqli_num_rows($result) > 0) {
-									while($regis_num = mysqli_fetch_assoc($result)) {
-										echo $regis_num["COUNT(cid)"];
+								$query_regis="SELECT COUNT(cid) as cnt FROM assignstudent WHERE cid IN ( SELECT cid FROM courses WHERE CID=$id)";
+								$result = pg_query($con,$query_regis) or die(pg_errormessage($con));
+								if (pg_num_rows($result) > 0) {
+									while($regis_num = pg_fetch_assoc($result)) {
+										echo $regis_num["cnt"];
 									}
 								}									
 							?> (REGISTERED)</a></div>

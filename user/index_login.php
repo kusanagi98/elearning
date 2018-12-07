@@ -54,10 +54,10 @@
 										require('login/db.php');
 										session_start();
 										$email=$_SESSION['username'];
-										$query="SELECT name FROM student WHERE email='$email'" ;
-										$result = mysqli_query($con,$query) or die(mysqli_error($con));
-										if (mysqli_num_rows($result) > 0) {
-											$info = mysqli_fetch_assoc($result);
+										$query="SELECT name FROM student WHERE email={$email}" ;
+										$result = pg_query($con,$query) or die(pg_errormessage($con));
+										if (pg_num_rows($result) > 0) {
+											$info = pg_fetch_assoc($result);
 											$mang_ho_ten= explode(" ", $info["name"]);
 											$so_phan_tu = count($mang_ho_ten);
 											$ten = $mang_ho_ten[$so_phan_tu-1];
@@ -241,33 +241,33 @@
                 </div><!-- .col -->
 
 				<?php
-					$query_top1_id="	SELECT CID, COUNT(sid) 						
+					$query_top1_id="	SELECT cid, COUNT(sid) 						
 										FROM assignstudent 
-										GROUP BY CID
-										HAVING COUNT(SID)>=ALL(SELECT COUNT(sid) 
+										GROUP BY cid
+										HAVING COUNT(sid)>=ALL(SELECT COUNT(sid) 
 																FROM assignstudent 
-																GROUP BY CID)";
-					$result_top1_id= mysqli_query($con,$query_top1_id) or die(mysqli_error($con));
-					$top1_id = mysqli_fetch_assoc($result_top1_id); 
-					$id = $top1_id["CID"];											//id của course được mua nhiều nhất
+																GROUP BY cid)";
+					$result_top1_id= pg_query($con,$query_top1_id) or die(pg_errormessage($con));
+					$top1_id = pg_fetch_assoc($result_top1_id); 
+					$id = $top1_id['cid'];											//id của course được mua nhiều nhất
 					
-					$query_top1_info="SELECT * FROM courses WHERE CID=$id";
-					$result_top1_info= mysqli_query($con,$query_top1_info) or die(mysqli_error($con));
-					$top1_info = mysqli_fetch_assoc($result_top1_info);				// info của course được mua nhiều nhất
+					$query_top1_info="SELECT * FROM courses WHERE cid = $id";
+					$result_top1_info= pg_query($con,$query_top1_info) or die(pg_errormessage($con));
+					$top1_info = pg_fetch_assoc($result_top1_info);				// info của course được mua nhiều nhất
 					
 					$query_image = "SELECT * FROM cimage WHERE cid=$id";			
-					$result_image = mysqli_query($con,$query_image) or die(mysqli_error($con));
-					$image = mysqli_fetch_assoc($result_image);						// ảnh
+					$result_image = pg_query($con,$query_image) or die(pg_errormessage($con));
+					$image = pg_fetch_assoc($result_image);						// ảnh
 						
 					$query_teacher = "	SELECT * 
 										FROM teacher
-										WHERE TID IN(
-												SELECT TID 
+										WHERE tid IN(
+												SELECT tid 
 												FROM courses
-												WHERE CID=$id
+												WHERE cid=$id
 												)";
-					$result_teacher = mysqli_query($con,$query_teacher) or die(mysqli_error($con));
-					$teacher = mysqli_fetch_assoc($result_teacher);					// info teacher 
+					$result_teacher = pg_query($con,$query_teacher) or die(pg_errormessage($con));
+					$teacher = pg_fetch_assoc($result_teacher);					// info teacher 
 				?>
                 <div class="col-12 col-md-6 col-lg-4 px-25">
                     <div class="course-content">
@@ -277,7 +277,7 @@
 
                         <div class="course-content-wrap">
                             <header class="entry-header">
-                                <h2 class="entry-title"><a href="single-courses.php?id=<?php echo $id;?>"><?php echo $top1_info["CName"];	?></a></h2>
+                                <h2 class="entry-title"><a href="single-courses.php?id=<?php echo $id;?>"><?php echo $top1_info["cname"];	?></a></h2>
 
                                 <div class="entry-meta flex align-items-center">
                                     <div class="course-author"><a href="#"><?php echo $teacher["name"];	?> </a></div>
